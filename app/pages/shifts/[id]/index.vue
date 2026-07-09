@@ -169,7 +169,8 @@ const profit = computed(() => {
             <span class="text-red-600 font-medium">{{ formatCurrency(row.amount) }}</span>
           </template>
           <template #cell-category="{ row }">
-            <AppBadge variant="info">{{ row.category }}</AppBadge>
+            <AppBadge v-if="row.category" :variant="row.category.color">{{ row.category.name }}</AppBadge>
+            <span v-else>—</span>
           </template>
         </AppTable>
       </AppCard>

@@ -24,23 +24,6 @@ const dailyColumns = [
   { key: 'balance', label: 'Balance' },
 ]
 
-const categoryLabels: Record<string, string> = {
-  fuel: 'Combustible',
-  maintenance: 'Mantenimiento',
-  repair: 'Reparación',
-  other: 'Otro',
-}
-
-const categoryVariant = (cat: string) => {
-  const map: Record<string, any> = {
-    fuel: 'amber',
-    maintenance: 'info',
-    repair: 'danger',
-    other: 'default',
-  }
-  return map[cat] ?? 'default'
-}
-
 const pad = (n: number) => String(n).padStart(2, '0')
 const toISODate = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 const mondayOf = (d: Date) => {
@@ -186,10 +169,10 @@ const balanceColor = (val: number) => (val >= 0 ? 'text-blue-700' : 'text-orange
         <div class="flex flex-wrap gap-3">
           <div
             v-for="cat in cashFlow.expensesByCategory"
-            :key="cat.category"
+            :key="cat.categoryId"
             class="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200"
           >
-            <AppBadge :variant="categoryVariant(cat.category)">{{ categoryLabels[cat.category] ?? cat.category }}</AppBadge>
+            <AppBadge :variant="cat.color">{{ cat.name }}</AppBadge>
             <span class="text-sm font-semibold text-slate-700">{{ formatCurrency(cat.amount) }}</span>
             <span class="text-xs text-slate-400">({{ cat.count }})</span>
           </div>

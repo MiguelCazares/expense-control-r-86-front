@@ -5,7 +5,7 @@ export const useExpenses = () => {
     page?: number
     limit?: number
     busId?: string
-    category?: string
+    categoryId?: string
     dateFrom?: string
     dateTo?: string
   }) => {
@@ -23,7 +23,7 @@ export const useExpenses = () => {
     shiftId?: string
     date: string
     amount: number
-    category: 'fuel' | 'maintenance' | 'repair' | 'other'
+    categoryId: string
     description?: string
   }) => {
     const res = await $api<any>('/expenses', { method: 'POST', body })
@@ -35,7 +35,7 @@ export const useExpenses = () => {
     shiftId: string
     date: string
     amount: number
-    category: string
+    categoryId: string
     description: string
   }>) => {
     const res = await $api<any>(`/expenses/${id}`, { method: 'PATCH', body })
