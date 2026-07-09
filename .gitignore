@@ -8,6 +8,10 @@ dist
 # Node
 node_modules
 
+# This project uses pnpm — ignore other package managers' lockfiles
+package-lock.json
+yarn.lock
+
 # Logs
 logs
 *.log
