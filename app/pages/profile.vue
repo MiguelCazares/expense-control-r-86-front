@@ -18,12 +18,12 @@ const fetchProfile = async () => {
   error.value = ''
   try {
     const res = await $api<any>('/owners/profile')
-    const owner = res.data
+    const owner = res.data.owner
     form.name = owner.name
     form.email = owner.email
     authStore.setOwner(owner)
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar el perfil'
+    error.value = getApiErrorMessage(err, 'Error al cargar el perfil')
   } finally {
     fetching.value = false
   }
@@ -44,12 +44,12 @@ const onSubmit = async () => {
     const body: Record<string, string> = { name: form.name, email: form.email }
     if (form.password) body.password = form.password
     const res = await $api<any>('/owners/profile', { method: 'PATCH', body })
-    authStore.setOwner(res.data)
+    authStore.setOwner(res.data.owner)
     form.password = ''
     form.confirmPassword = ''
     uiStore.notify('Perfil actualizado correctamente', 'success')
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al actualizar el perfil'
+    error.value = getApiErrorMessage(err, 'Error al actualizar el perfil')
   } finally {
     loading.value = false
   }

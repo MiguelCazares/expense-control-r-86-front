@@ -33,7 +33,7 @@ const fetchBus = async () => {
     form.year = bus.year
     form.route = bus.route
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar el autobús'
+    error.value = getApiErrorMessage(err, 'Error al cargar el autobús')
   } finally {
     fetching.value = false
   }
@@ -60,7 +60,7 @@ const onSubmit = async () => {
     uiStore.notify('Autobús actualizado correctamente', 'success')
     router.push(`/buses/${id}`)
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al actualizar el autobús'
+    error.value = getApiErrorMessage(err, 'Error al actualizar el autobús')
   } finally {
     loading.value = false
   }

@@ -32,7 +32,7 @@ const fetchDrivers = async () => {
     drivers.value = data.data ?? data
     if (data.meta) meta.value = data.meta
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar los conductores'
+    error.value = getApiErrorMessage(err, 'Error al cargar los conductores')
   } finally {
     loading.value = false
   }
@@ -55,7 +55,7 @@ const confirmDelete = async () => {
     deleteTarget.value = null
     fetchDrivers()
   } catch (err: any) {
-    uiStore.notify(err?.data?.message || 'Error al eliminar el conductor', 'error')
+    uiStore.notify(getApiErrorMessage(err, 'Error al eliminar el conductor'), 'error')
   } finally {
     deleting.value = false
   }

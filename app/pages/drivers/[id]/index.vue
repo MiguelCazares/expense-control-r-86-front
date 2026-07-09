@@ -34,7 +34,7 @@ const fetchDriver = async () => {
   try {
     driver.value = await getOne(id)
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar el conductor'
+    error.value = getApiErrorMessage(err, 'Error al cargar el conductor')
   } finally {
     loading.value = false
   }
@@ -70,7 +70,7 @@ const submitAssignment = async () => {
     showAssignForm.value = false
     fetchAssignments()
   } catch (err: any) {
-    assignError.value = err?.data?.message || 'Error al agregar la asignación'
+    assignError.value = getApiErrorMessage(err, 'Error al agregar la asignación')
   } finally {
     assignLoading.value = false
   }

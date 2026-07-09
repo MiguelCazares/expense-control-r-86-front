@@ -38,7 +38,7 @@ const fetchAll = async () => {
     if (summaryRes.status === 'fulfilled') summary.value = summaryRes.value
     if (shiftRes.status === 'rejected') throw shiftRes.reason
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar los detalles del turno'
+    error.value = getApiErrorMessage(err, 'Error al cargar los detalles del turno')
   } finally {
     loading.value = false
   }

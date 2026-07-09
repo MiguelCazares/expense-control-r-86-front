@@ -47,7 +47,7 @@ const fetchIncome = async () => {
     income.value = data.data ?? data
     if (data.meta) meta.value = data.meta
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar los ingresos'
+    error.value = getApiErrorMessage(err, 'Error al cargar los ingresos')
   } finally {
     loading.value = false
   }
@@ -71,7 +71,7 @@ const confirmDelete = async () => {
     deleteTarget.value = null
     fetchIncome()
   } catch (err: any) {
-    uiStore.notify(err?.data?.message || 'Error al eliminar el registro de ingreso', 'error')
+    uiStore.notify(getApiErrorMessage(err, 'Error al eliminar el registro de ingreso'), 'error')
   } finally {
     deleting.value = false
   }

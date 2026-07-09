@@ -22,7 +22,7 @@ const fetchBus = async () => {
   try {
     bus.value = await getOne(id)
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar los detalles del autobús'
+    error.value = getApiErrorMessage(err, 'Error al cargar los detalles del autobús')
   } finally {
     loading.value = false
   }

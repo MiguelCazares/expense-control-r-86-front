@@ -61,7 +61,7 @@ const fetchAll = async () => {
     buses.value = b?.data ?? b ?? []
     shifts.value = s?.data ?? s ?? []
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar el registro de gasto'
+    error.value = getApiErrorMessage(err, 'Error al cargar el registro de gasto')
   } finally {
     fetching.value = false
   }
@@ -93,7 +93,7 @@ const onSubmit = async () => {
     uiStore.notify('Gasto actualizado correctamente', 'success')
     router.push('/expenses')
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al actualizar el gasto'
+    error.value = getApiErrorMessage(err, 'Error al actualizar el gasto')
   } finally {
     loading.value = false
   }

@@ -8,7 +8,7 @@ export const useDrivers = () => {
 
   const getOne = async (id: string) => {
     const res = await $api<any>(`/drivers/${id}`)
-    return res.data
+    return res.data.driver
   }
 
   const create = async (body: {
@@ -18,7 +18,7 @@ export const useDrivers = () => {
     phone?: string
   }) => {
     const res = await $api<any>('/drivers', { method: 'POST', body })
-    return res.data
+    return res.data.driver
   }
 
   const update = async (id: string, body: Partial<{
@@ -28,7 +28,7 @@ export const useDrivers = () => {
     phone: string
   }>) => {
     const res = await $api<any>(`/drivers/${id}`, { method: 'PATCH', body })
-    return res.data
+    return res.data.driver
   }
 
   const remove = async (id: string) => {

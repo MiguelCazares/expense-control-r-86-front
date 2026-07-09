@@ -53,7 +53,7 @@ const fetchAll = async () => {
     buses.value = b?.data ?? b ?? []
     shifts.value = s?.data ?? s ?? []
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar el registro de ingreso'
+    error.value = getApiErrorMessage(err, 'Error al cargar el registro de ingreso')
   } finally {
     fetching.value = false
   }
@@ -83,7 +83,7 @@ const onSubmit = async () => {
     uiStore.notify('Ingreso actualizado correctamente', 'success')
     router.push('/income')
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al actualizar el ingreso'
+    error.value = getApiErrorMessage(err, 'Error al actualizar el ingreso')
   } finally {
     loading.value = false
   }

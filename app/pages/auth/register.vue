@@ -36,7 +36,7 @@ const onSubmit = async () => {
     if (res.data.owner) authStore.setOwner(res.data.owner)
     await navigateTo('/dashboard')
   } catch (err: any) {
-    error.value = err?.data?.message || err?.message || 'El registro falló. Inténtalo de nuevo.'
+    error.value = getApiErrorMessage(err, 'El registro falló. Inténtalo de nuevo.')
   } finally {
     loading.value = false
   }

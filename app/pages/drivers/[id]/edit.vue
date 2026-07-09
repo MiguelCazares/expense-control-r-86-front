@@ -24,7 +24,7 @@ const fetchDriver = async () => {
     form.license = driver.license
     form.phone = driver.phone ?? ''
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar el conductor'
+    error.value = getApiErrorMessage(err, 'Error al cargar el conductor')
   } finally {
     fetching.value = false
   }
@@ -53,7 +53,7 @@ const onSubmit = async () => {
     uiStore.notify('Conductor actualizado correctamente', 'success')
     router.push(`/drivers/${id}`)
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al actualizar el conductor'
+    error.value = getApiErrorMessage(err, 'Error al actualizar el conductor')
   } finally {
     loading.value = false
   }

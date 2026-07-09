@@ -66,7 +66,7 @@ const onSubmit = async () => {
     uiStore.notify('Ingreso registrado correctamente', 'success')
     router.push('/income')
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al registrar el ingreso'
+    error.value = getApiErrorMessage(err, 'Error al registrar el ingreso')
   } finally {
     loading.value = false
   }

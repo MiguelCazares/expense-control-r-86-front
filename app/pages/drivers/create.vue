@@ -35,7 +35,7 @@ const onSubmit = async () => {
     uiStore.notify('Conductor creado correctamente', 'success')
     router.push('/drivers')
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al crear el conductor'
+    error.value = getApiErrorMessage(err, 'Error al crear el conductor')
   } finally {
     loading.value = false
   }

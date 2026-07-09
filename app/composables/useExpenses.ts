@@ -15,7 +15,7 @@ export const useExpenses = () => {
 
   const getOne = async (id: string) => {
     const res = await $api<any>(`/expenses/${id}`)
-    return res.data
+    return res.data.expense
   }
 
   const create = async (body: {
@@ -27,7 +27,7 @@ export const useExpenses = () => {
     description?: string
   }) => {
     const res = await $api<any>('/expenses', { method: 'POST', body })
-    return res.data
+    return res.data.expense
   }
 
   const update = async (id: string, body: Partial<{
@@ -39,7 +39,7 @@ export const useExpenses = () => {
     description: string
   }>) => {
     const res = await $api<any>(`/expenses/${id}`, { method: 'PATCH', body })
-    return res.data
+    return res.data.expense
   }
 
   const remove = async (id: string) => {

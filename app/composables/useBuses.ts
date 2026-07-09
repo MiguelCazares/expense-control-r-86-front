@@ -8,7 +8,7 @@ export const useBuses = () => {
 
   const getOne = async (id: string) => {
     const res = await $api<any>(`/buses/${id}`)
-    return res.data
+    return res.data.bus
   }
 
   const create = async (body: {
@@ -20,7 +20,7 @@ export const useBuses = () => {
     route: string
   }) => {
     const res = await $api<any>('/buses', { method: 'POST', body })
-    return res.data
+    return res.data.bus
   }
 
   const update = async (id: string, body: Partial<{
@@ -32,7 +32,7 @@ export const useBuses = () => {
     route: string
   }>) => {
     const res = await $api<any>(`/buses/${id}`, { method: 'PATCH', body })
-    return res.data
+    return res.data.bus
   }
 
   const remove = async (id: string) => {
@@ -42,7 +42,7 @@ export const useBuses = () => {
 
   const getSummary = async (id: string, month: string) => {
     const res = await $api<any>(`/buses/${id}/summary`, { params: { month } })
-    return res.data
+    return res.data.summary
   }
 
   return { list, getOne, create, update, remove, getSummary }

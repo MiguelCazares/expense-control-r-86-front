@@ -16,7 +16,7 @@ export const useShifts = () => {
 
   const getOne = async (id: string) => {
     const res = await $api<any>(`/shifts/${id}`)
-    return res.data
+    return res.data.shift
   }
 
   const getSummary = async (id: string) => {
@@ -32,16 +32,15 @@ export const useShifts = () => {
     notes?: string
   }) => {
     const res = await $api<any>('/shifts', { method: 'POST', body })
-    return res.data
+    return res.data.shift
   }
 
   const update = async (id: string, body: Partial<{
     endTime: string
     notes: string
-    status: string
   }>) => {
     const res = await $api<any>(`/shifts/${id}`, { method: 'PATCH', body })
-    return res.data
+    return res.data.shift
   }
 
   const remove = async (id: string) => {

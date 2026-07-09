@@ -43,7 +43,7 @@ const fetchStats = async () => {
       stats.totalIncome = incomeRes.value?.data?.meta?.total ?? 0
     }
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar los datos del panel'
+    error.value = getApiErrorMessage(err, 'Error al cargar los datos del panel')
   } finally {
     loading.value = false
   }

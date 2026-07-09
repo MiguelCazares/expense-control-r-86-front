@@ -9,15 +9,10 @@ const { getOne, update } = useShifts()
 const uiStore = useUiStore()
 
 const id = route.params.id as string
-const form = reactive({ endTime: '', notes: '', status: '' })
+const form = reactive({ endTime: '', notes: '' })
 const loading = ref(false)
 const fetching = ref(true)
 const error = ref('')
-
-const statusOptions = [
-  { label: 'Abierto', value: 'OPEN' },
-  { label: 'Cerrado', value: 'CLOSED' },
-]
 
 const fetchShift = async () => {
   fetching.value = true
@@ -25,9 +20,8 @@ const fetchShift = async () => {
     const shift = await getOne(id)
     form.endTime = shift.endTime ?? ''
     form.notes = shift.notes ?? ''
-    form.status = shift.status ?? ''
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar el turno'
+    error.value = getApiErrorMessage(err, 'Error al cargar el turno')
   } finally {
     fetching.value = false
   }
@@ -40,12 +34,11 @@ const onSubmit = async () => {
     await update(id, {
       endTime: form.endTime || undefined,
       notes: form.notes || undefined,
-      status: form.status || undefined,
     })
     uiStore.notify('Turno actualizado correctamente', 'success')
     router.push(`/shifts/${id}`)
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al actualizar el turno'
+    error.value = getApiErrorMessage(err, 'Error al actualizar el turno')
   } finally {
     loading.value = false
   }
@@ -78,13 +71,7 @@ onMounted(fetchShift)
           <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
 
           <AppInput v-model="form.endTime" label="Hora de fin" type="time" :disabled="loading" />
-
-          <AppSelect
-            v-model="form.status"
-            label="Estado"
-            :options="statusOptions"
-            placeholder="Seleccionar estado"
-          />
+          <p class="text-xs text-slate-500 -mt-2">El turno se cierra automáticamente al establecer la hora de fin.</p>
 
           <div class="flex flex-col gap-1">
             <label class="text-sm font-medium text-slate-700">Notas</label>

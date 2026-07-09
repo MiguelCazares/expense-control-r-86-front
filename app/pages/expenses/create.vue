@@ -75,7 +75,7 @@ const onSubmit = async () => {
     uiStore.notify('Gasto registrado correctamente', 'success')
     router.push('/expenses')
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al registrar el gasto'
+    error.value = getApiErrorMessage(err, 'Error al registrar el gasto')
   } finally {
     loading.value = false
   }

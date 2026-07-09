@@ -34,7 +34,7 @@ const onSubmit = async () => {
     if (res.data.owner) authStore.setOwner(res.data.owner)
     await navigateTo('/dashboard')
   } catch (err: any) {
-    error.value = err?.data?.message || err?.message || 'Credenciales inválidas. Inténtalo de nuevo.'
+    error.value = getApiErrorMessage(err, 'Credenciales inválidas. Inténtalo de nuevo.')
   } finally {
     loading.value = false
   }

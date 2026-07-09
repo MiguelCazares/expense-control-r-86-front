@@ -34,7 +34,7 @@ const fetchBuses = async () => {
     buses.value = data.data ?? data
     if (data.meta) meta.value = data.meta
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar los autobuses'
+    error.value = getApiErrorMessage(err, 'Error al cargar los autobuses')
   } finally {
     loading.value = false
   }
@@ -57,7 +57,7 @@ const confirmDelete = async () => {
     deleteTarget.value = null
     fetchBuses()
   } catch (err: any) {
-    uiStore.notify(err?.data?.message || 'Error al eliminar el autobús', 'error')
+    uiStore.notify(getApiErrorMessage(err, 'Error al eliminar el autobús'), 'error')
   } finally {
     deleting.value = false
   }

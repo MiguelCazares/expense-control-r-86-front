@@ -63,7 +63,7 @@ const onSubmit = async () => {
     uiStore.notify('Turno creado correctamente', 'success')
     router.push('/shifts')
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al crear el turno'
+    error.value = getApiErrorMessage(err, 'Error al crear el turno')
   } finally {
     loading.value = false
   }

@@ -40,7 +40,7 @@ const onSubmit = async () => {
     uiStore.notify('Autobús creado correctamente', 'success')
     router.push('/buses')
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al crear el autobús'
+    error.value = getApiErrorMessage(err, 'Error al crear el autobús')
   } finally {
     loading.value = false
   }

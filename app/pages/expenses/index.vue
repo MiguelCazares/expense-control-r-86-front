@@ -68,7 +68,7 @@ const fetchExpenses = async () => {
     expenses.value = data.data ?? data
     if (data.meta) meta.value = data.meta
   } catch (err: any) {
-    error.value = err?.data?.message || 'Error al cargar los gastos'
+    error.value = getApiErrorMessage(err, 'Error al cargar los gastos')
   } finally {
     loading.value = false
   }
@@ -92,7 +92,7 @@ const confirmDelete = async () => {
     deleteTarget.value = null
     fetchExpenses()
   } catch (err: any) {
-    uiStore.notify(err?.data?.message || 'Error al eliminar el gasto', 'error')
+    uiStore.notify(getApiErrorMessage(err, 'Error al eliminar el gasto'), 'error')
   } finally {
     deleting.value = false
   }
