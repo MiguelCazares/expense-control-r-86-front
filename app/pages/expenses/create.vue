@@ -6,6 +6,7 @@ definePageMeta({ middleware: 'auth' })
 const { create } = useExpenses()
 const { list: listBuses } = useBuses()
 const { list: listShifts } = useShifts()
+const { listActiveOptions } = useCategories()
 const uiStore = useUiStore()
 const router = useRouter()
 
@@ -14,11 +15,12 @@ const form = reactive({
   shiftId: '',
   date: '',
   amount: '',
-  category: '',
+  categoryId: '',
   description: '',
 })
 const buses = ref<any[]>([])
 const shifts = ref<any[]>([])
+const categoryOptions = ref<{ label: string; value: string }[]>([])
 const loading = ref(false)
 const error = ref('')
 const errors = reactive<Record<string, string>>({})
@@ -33,20 +35,16 @@ const shiftOptions = computed(() => [
     value: s.id,
   })),
 ])
-const categoryOptions = [
-  { label: 'Combustible', value: 'fuel' },
-  { label: 'Mantenimiento', value: 'maintenance' },
-  { label: 'Reparación', value: 'repair' },
-  { label: 'Otro', value: 'other' },
-]
 
 const fetchOptions = async () => {
-  const [b, s] = await Promise.allSettled([
+  const [b, s, c] = await Promise.allSettled([
     listBuses({ limit: 100 }),
     listShifts({ limit: 100 }),
+    listActiveOptions(),
   ])
   if (b.status === 'fulfilled') buses.value = b.value?.data ?? b.value
   if (s.status === 'fulfilled') shifts.value = s.value?.data ?? s.value
+  if (c.status === 'fulfilled') categoryOptions.value = c.value
 }
 
 const validate = () => {
@@ -55,7 +53,7 @@ const validate = () => {
   if (!form.busId) { errors.busId = 'El autobús es requerido'; valid = false }
   if (!form.date) { errors.date = 'La fecha es requerida'; valid = false }
   if (!form.amount || Number(form.amount) <= 0) { errors.amount = 'Se requiere un monto válido'; valid = false }
-  if (!form.category) { errors.category = 'La categoría es requerida'; valid = false }
+  if (!form.categoryId) { errors.categoryId = 'La categoría es requerida'; valid = false }
   return valid
 }
 
@@ -69,7 +67,7 @@ const onSubmit = async () => {
       shiftId: form.shiftId || undefined,
       date: form.date,
       amount: Number(form.amount),
-      category: form.category as any,
+      categoryId: form.categoryId,
       description: form.description || undefined,
     })
     uiStore.notify('Gasto registrado correctamente', 'success')
@@ -118,12 +116,12 @@ onMounted(fetchOptions)
           />
 
           <AppSelect
-            v-model="form.category"
+            v-model="form.categoryId"
             label="Categoría"
             :options="categoryOptions"
             placeholder="Seleccionar categoría"
             :required="true"
-            :error="errors.category"
+            :error="errors.categoryId"
           />
 
           <div class="grid grid-cols-2 gap-4">

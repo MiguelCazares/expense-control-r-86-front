@@ -8,6 +8,7 @@ const router = useRouter()
 const { getOne, update } = useExpenses()
 const { list: listBuses } = useBuses()
 const { list: listShifts } = useShifts()
+const { listActiveOptions } = useCategories()
 const uiStore = useUiStore()
 
 const id = route.params.id as string
@@ -16,11 +17,12 @@ const form = reactive({
   shiftId: '',
   date: '',
   amount: '',
-  category: '',
+  categoryId: '',
   description: '',
 })
 const buses = ref<any[]>([])
 const shifts = ref<any[]>([])
+const categoryOptions = ref<{ label: string; value: string }[]>([])
 const loading = ref(false)
 const fetching = ref(true)
 const error = ref('')
@@ -36,30 +38,30 @@ const shiftOptions = computed(() => [
     value: s.id,
   })),
 ])
-const categoryOptions = [
-  { label: 'Combustible', value: 'fuel' },
-  { label: 'Mantenimiento', value: 'maintenance' },
-  { label: 'Reparación', value: 'repair' },
-  { label: 'Otro', value: 'other' },
-]
 
 const fetchAll = async () => {
   fetching.value = true
   error.value = ''
   try {
-    const [record, b, s] = await Promise.all([
+    const [record, b, s, categories] = await Promise.all([
       getOne(id),
       listBuses({ limit: 100 }),
       listShifts({ limit: 100 }),
+      listActiveOptions(),
     ])
     form.busId = record.busId ?? record.bus?.id ?? ''
     form.shiftId = record.shiftId ?? record.shift?.id ?? ''
     form.date = record.date ? record.date.slice(0, 10) : ''
     form.amount = String(record.amount ?? '')
-    form.category = record.category ?? ''
+    form.categoryId = String(record.categoryId ?? record.category?.id ?? '')
     form.description = record.description ?? ''
     buses.value = b?.data ?? b ?? []
     shifts.value = s?.data ?? s ?? []
+
+    // A deactivated category stays selectable so saving keeps it unchanged.
+    categoryOptions.value = categories.some(c => c.value === form.categoryId)
+      ? categories
+      : [...categories, { label: `${record.category?.name} (inactiva)`, value: form.categoryId }]
   } catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar el registro de gasto')
   } finally {
@@ -73,7 +75,7 @@ const validate = () => {
   if (!form.busId) { errors.busId = 'El autobús es requerido'; valid = false }
   if (!form.date) { errors.date = 'La fecha es requerida'; valid = false }
   if (!form.amount || Number(form.amount) <= 0) { errors.amount = 'Se requiere un monto válido'; valid = false }
-  if (!form.category) { errors.category = 'La categoría es requerida'; valid = false }
+  if (!form.categoryId) { errors.categoryId = 'La categoría es requerida'; valid = false }
   return valid
 }
 
@@ -87,7 +89,7 @@ const onSubmit = async () => {
       shiftId: form.shiftId || undefined,
       date: form.date,
       amount: Number(form.amount),
-      category: form.category as any,
+      categoryId: form.categoryId,
       description: form.description || undefined,
     })
     uiStore.notify('Gasto actualizado correctamente', 'success')
@@ -143,12 +145,12 @@ onMounted(fetchAll)
           />
 
           <AppSelect
-            v-model="form.category"
+            v-model="form.categoryId"
             label="Categoría"
             :options="categoryOptions"
             placeholder="Seleccionar categoría"
             :required="true"
-            :error="errors.category"
+            :error="errors.categoryId"
           />
 
           <div class="grid grid-cols-2 gap-4">

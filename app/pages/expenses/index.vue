@@ -5,6 +5,7 @@ definePageMeta({ middleware: 'auth' })
 
 const { list, remove } = useExpenses()
 const { list: listBuses } = useBuses()
+const { listActiveOptions } = useCategories()
 const uiStore = useUiStore()
 const router = useRouter()
 
@@ -18,6 +19,7 @@ const busId = ref('')
 const dateFrom = ref('')
 const dateTo = ref('')
 const categoryFilter = ref('')
+const categories = ref<{ label: string; value: string }[]>([])
 const deleteTarget = ref<any>(null)
 const deleting = ref(false)
 
@@ -35,23 +37,10 @@ const columns = [
   { key: 'actions', label: '', class: 'w-36' },
 ]
 
-const categoryOptions = [
+const categoryOptions = computed(() => [
   { label: 'Todas las categorías', value: '' },
-  { label: 'Combustible', value: 'fuel' },
-  { label: 'Mantenimiento', value: 'maintenance' },
-  { label: 'Reparación', value: 'repair' },
-  { label: 'Otro', value: 'other' },
-]
-
-const categoryVariant = (cat: string) => {
-  const map: Record<string, any> = {
-    fuel: 'amber',
-    maintenance: 'info',
-    repair: 'danger',
-    other: 'default',
-  }
-  return map[cat] ?? 'default'
-}
+  ...categories.value,
+])
 
 const fetchExpenses = async () => {
   loading.value = true
@@ -61,7 +50,7 @@ const fetchExpenses = async () => {
       page: page.value,
       limit: 10,
       busId: busId.value || undefined,
-      category: categoryFilter.value || undefined,
+      categoryId: categoryFilter.value || undefined,
       dateFrom: dateFrom.value || undefined,
       dateTo: dateTo.value || undefined,
     })
@@ -106,8 +95,13 @@ const fetchBuses = async () => {
   if (b) buses.value = b?.data ?? b ?? []
 }
 
+const fetchCategories = async () => {
+  categories.value = await listActiveOptions().catch(() => [])
+}
+
 onMounted(() => {
   fetchBuses()
+  fetchCategories()
   fetchExpenses()
 })
 </script>
@@ -146,7 +140,8 @@ onMounted(() => {
             {{ row.bus?.plate ?? '—' }}
           </template>
           <template #cell-category="{ row }">
-            <AppBadge :variant="categoryVariant(row.category)">{{ row.category }}</AppBadge>
+            <AppBadge v-if="row.category" :variant="row.category.color">{{ row.category.name }}</AppBadge>
+            <span v-else>—</span>
           </template>
           <template #cell-amount="{ row }">
             <span class="text-red-600 font-semibold">{{ formatCurrency(row.amount) }}</span>
