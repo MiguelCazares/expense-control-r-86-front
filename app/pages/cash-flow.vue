@@ -106,8 +106,6 @@ onMounted(() => {
 const formatCurrency = (val: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val || 0)
 
-const formatDate = (val: string) => (val ? new Date(`${val}T00:00:00`).toLocaleDateString() : '—')
-
 const balanceColor = (val: number) => (val >= 0 ? 'text-blue-700' : 'text-orange-700')
 </script>
 

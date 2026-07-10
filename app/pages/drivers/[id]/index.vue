@@ -183,7 +183,7 @@ const busOptions = computed(() =>
               {{ row.bus?.plate ?? row.busId }}
             </template>
             <template #cell-date="{ row }">
-              {{ row.date ? new Date(row.date).toLocaleDateString() : '—' }}
+              {{ formatDate(row.date) }}
             </template>
           </AppTable>
 

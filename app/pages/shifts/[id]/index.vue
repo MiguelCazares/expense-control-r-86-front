@@ -91,7 +91,7 @@ const profit = computed(() => {
           <div class="space-y-3">
             <div class="flex justify-between text-sm">
               <span class="text-slate-500">Fecha</span>
-              <span class="font-medium">{{ shift.date ? new Date(shift.date).toLocaleDateString() : '—' }}</span>
+              <span class="font-medium">{{ formatDate(shift.date) }}</span>
             </div>
             <div class="flex justify-between text-sm">
               <span class="text-slate-500">Conductor</span>
@@ -152,7 +152,7 @@ const profit = computed(() => {
         </template>
         <AppTable :columns="incomeCols" :rows="incomeList" empty-message="No hay ingresos para este turno.">
           <template #cell-date="{ row }">
-            {{ row.date ? new Date(row.date).toLocaleDateString() : '—' }}
+            {{ formatDate(row.date) }}
           </template>
           <template #cell-amount="{ row }">
             <span class="text-emerald-700 font-medium">{{ formatCurrency(row.amount) }}</span>
@@ -167,7 +167,7 @@ const profit = computed(() => {
         </template>
         <AppTable :columns="expenseCols" :rows="expenseList" empty-message="No hay gastos para este turno.">
           <template #cell-date="{ row }">
-            {{ row.date ? new Date(row.date).toLocaleDateString() : '—' }}
+            {{ formatDate(row.date) }}
           </template>
           <template #cell-amount="{ row }">
             <span class="text-red-600 font-medium">{{ formatCurrency(row.amount) }}</span>

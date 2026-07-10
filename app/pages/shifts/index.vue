@@ -116,7 +116,7 @@ onMounted(fetchShifts)
       <div class="p-4">
         <AppTable :columns="columns" :rows="shifts" :loading="loading" empty-message="No se encontraron turnos.">
           <template #cell-date="{ row }">
-            {{ row.date ? new Date(row.date).toLocaleDateString() : '—' }}
+            {{ formatDate(row.date) }}
           </template>
           <template #cell-driver="{ row }">
             {{ row.driver ? `${row.driver.name} ${row.driver.lastName}` : '—' }}

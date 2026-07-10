@@ -34,7 +34,7 @@ const busOptions = computed(() =>
 const shiftOptions = computed(() => [
   { label: 'Sin turno (independiente)', value: '' },
   ...shifts.value.map(s => ({
-    label: `${s.date ? new Date(s.date).toLocaleDateString() : ''} - ${s.driver ? s.driver.name : s.driverId}`,
+    label: `${formatDate(s.date, '')} - ${s.driver ? s.driver.name : s.driverId}`,
     value: s.id,
   })),
 ])

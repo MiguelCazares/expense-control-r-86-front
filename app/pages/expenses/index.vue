@@ -134,7 +134,7 @@ onMounted(() => {
       <div class="p-4">
         <AppTable :columns="columns" :rows="expenses" :loading="loading" empty-message="No se encontraron gastos.">
           <template #cell-date="{ row }">
-            {{ row.date ? new Date(row.date).toLocaleDateString() : '—' }}
+            {{ formatDate(row.date) }}
           </template>
           <template #cell-bus="{ row }">
             {{ row.bus?.plate ?? '—' }}
