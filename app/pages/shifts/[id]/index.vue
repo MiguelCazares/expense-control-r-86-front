@@ -109,6 +109,10 @@ const profit = computed(() => {
               <span class="text-slate-500">Fin</span>
               <span class="font-medium">{{ shift.endTime ?? '—' }}</span>
             </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-slate-500">Vueltas</span>
+              <span class="font-medium">{{ shift.laps ?? '—' }}</span>
+            </div>
             <div class="flex justify-between text-sm items-center">
               <span class="text-slate-500">Estado</span>
               <AppBadge :variant="statusVariant(shift.status)">{{ shift.status }}</AppBadge>

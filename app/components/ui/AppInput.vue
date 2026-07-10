@@ -4,6 +4,8 @@ interface Props {
   label?: string
   placeholder?: string
   type?: string
+  step?: string | number
+  min?: string | number
   error?: string
   disabled?: boolean
   required?: boolean
@@ -32,6 +34,8 @@ const id = `input-${Math.random().toString(36).slice(2, 9)}`
     <input
       :id="id"
       :type="type"
+      :step="step"
+      :min="min"
       :value="modelValue"
       :placeholder="placeholder"
       :disabled="disabled"

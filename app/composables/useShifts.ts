@@ -38,6 +38,7 @@ export const useShifts = () => {
   const update = async (id: string, body: Partial<{
     endTime: string
     notes: string
+    laps: number
   }>) => {
     const res = await $api<any>(`/shifts/${id}`, { method: 'PATCH', body })
     return res.data.shift

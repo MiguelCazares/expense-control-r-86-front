@@ -9,7 +9,7 @@ const { getOne, update } = useShifts()
 const uiStore = useUiStore()
 
 const id = route.params.id as string
-const form = reactive({ endTime: '', notes: '' })
+const form = reactive({ endTime: '', notes: '', laps: '' as string | number })
 const loading = ref(false)
 const fetching = ref(true)
 const error = ref('')
@@ -20,6 +20,7 @@ const fetchShift = async () => {
     const shift = await getOne(id)
     form.endTime = shift.endTime ?? ''
     form.notes = shift.notes ?? ''
+    form.laps = shift.laps ?? ''
   } catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar el turno')
   } finally {
@@ -34,6 +35,7 @@ const onSubmit = async () => {
     await update(id, {
       endTime: form.endTime || undefined,
       notes: form.notes || undefined,
+      laps: form.laps === '' ? undefined : Number(form.laps),
     })
     uiStore.notify('Turno actualizado correctamente', 'success')
     router.push(`/shifts/${id}`)
@@ -72,6 +74,17 @@ onMounted(fetchShift)
 
           <AppInput v-model="form.endTime" label="Hora de fin" type="time" :disabled="loading" />
           <p class="text-xs text-slate-500 -mt-2">El turno se cierra automáticamente al establecer la hora de fin.</p>
+
+          <AppInput
+            v-model="form.laps"
+            label="Vueltas"
+            type="number"
+            step="0.5"
+            min="0"
+            placeholder="Ej. 12.5"
+            :disabled="loading"
+          />
+          <p class="text-xs text-slate-500 -mt-2">Número de vueltas completadas, en incrementos de 0.5.</p>
 
           <div class="flex flex-col gap-1">
             <label class="text-sm font-medium text-slate-700">Notas</label>
