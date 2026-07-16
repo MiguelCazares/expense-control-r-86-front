@@ -15,7 +15,8 @@ const pages = computed(() => {
 
   if (total <= 7) {
     for (let i = 1; i <= total; i++) range.push(i)
-  } else {
+  }
+  else {
     range.push(1)
     if (props.currentPage > 3) range.push('...')
     const start = Math.max(2, props.currentPage - 1)
@@ -33,7 +34,10 @@ const to = computed(() => Math.min(props.currentPage * props.perPage, props.tota
 </script>
 
 <template>
-  <div v-if="totalPages > 0" class="flex flex-col sm:flex-row items-center justify-between gap-3 px-1">
+  <div
+    v-if="totalPages > 0"
+    class="flex flex-col sm:flex-row items-center justify-between gap-3 px-1"
+  >
     <p class="text-sm text-slate-500">
       Mostrando <span class="font-medium text-slate-700">{{ from }}–{{ to }}</span> de
       <span class="font-medium text-slate-700">{{ total }}</span> resultados
@@ -44,12 +48,28 @@ const to = computed(() => Math.min(props.currentPage * props.perPage, props.tota
         class="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         @click="emit('update:page', currentPage - 1)"
       >
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </button>
-      <template v-for="(page, i) in pages" :key="i">
-        <span v-if="page === '...'" class="px-2 text-slate-400 text-sm">...</span>
+      <template
+        v-for="(page, i) in pages"
+        :key="i"
+      >
+        <span
+          v-if="page === '...'"
+          class="px-2 text-slate-400 text-sm"
+        >...</span>
         <button
           v-else
           :class="[
@@ -68,8 +88,18 @@ const to = computed(() => Math.min(props.currentPage * props.perPage, props.tota
         class="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         @click="emit('update:page', currentPage + 1)"
       >
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 5l7 7-7 7"
+          />
         </svg>
       </button>
     </div>

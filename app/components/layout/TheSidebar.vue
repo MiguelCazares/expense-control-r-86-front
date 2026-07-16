@@ -91,9 +91,18 @@ const isActive = (to: string) => {
       <!-- Logo -->
       <div class="flex items-center gap-3 h-16 px-5 border-b border-slate-700">
         <div class="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center">
-          <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+          <svg
+            class="h-5 w-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+            />
           </svg>
         </div>
         <span class="text-white font-bold text-lg tracking-tight">RouteControl</span>
@@ -108,14 +117,25 @@ const isActive = (to: string) => {
           :class="['sidebar-link', { active: isActive(item.to) }]"
           @click="uiStore.closeSidebar()"
         >
-          <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" v-html="item.icon" />
+          <!-- item.icon son literales SVG definidos en este archivo, nunca entrada de usuario -->
+          <!-- eslint-disable vue/no-v-html -->
+          <svg
+            class="h-5 w-5 shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            v-html="item.icon"
+          />
+          <!-- eslint-enable vue/no-v-html -->
           {{ item.label }}
         </NuxtLink>
       </nav>
 
       <!-- Bottom version -->
       <div class="px-5 py-3 border-t border-slate-700">
-        <p class="text-xs text-slate-500">Route Control v1.0</p>
+        <p class="text-xs text-slate-500">
+          Route Control v1.0
+        </p>
       </div>
     </aside>
   </Transition>

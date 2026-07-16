@@ -19,7 +19,7 @@ const busId = ref('')
 const dateFrom = ref('')
 const dateTo = ref('')
 const categoryFilter = ref('')
-const categories = ref<{ label: string; value: string }[]>([])
+const categories = ref<{ label: string, value: string }[]>([])
 const deleteTarget = ref<any>(null)
 const deleting = ref(false)
 
@@ -56,9 +56,11 @@ const fetchExpenses = async () => {
     })
     expenses.value = data.data ?? data
     if (data.meta) meta.value = data.meta
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar los gastos')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -66,7 +68,8 @@ const fetchExpenses = async () => {
 watch([busId, dateFrom, dateTo, categoryFilter], () => {
   if (page.value !== 1) {
     page.value = 1
-  } else {
+  }
+  else {
     fetchExpenses()
   }
 })
@@ -80,9 +83,11 @@ const confirmDelete = async () => {
     uiStore.notify('Gasto eliminado', 'success')
     deleteTarget.value = null
     fetchExpenses()
-  } catch (err: any) {
+  }
+  catch (err: any) {
     uiStore.notify(getApiErrorMessage(err, 'Error al eliminar el gasto'), 'error')
-  } finally {
+  }
+  finally {
     deleting.value = false
   }
 }
@@ -110,29 +115,73 @@ onMounted(() => {
   <div>
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h1 class="text-2xl font-bold text-slate-800">Gastos</h1>
-        <p class="text-slate-500 mt-1">Gestiona los costos operativos</p>
+        <h1 class="text-2xl font-bold text-slate-800">
+          Gastos
+        </h1>
+        <p class="text-slate-500 mt-1">
+          Gestiona los costos operativos
+        </p>
       </div>
-      <AppButton variant="primary" @click="router.push('/expenses/create')">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      <AppButton
+        variant="primary"
+        @click="router.push('/expenses/create')"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          />
         </svg>
         Registrar gasto
       </AppButton>
     </div>
 
-    <AppAlert v-if="error" type="error" :message="error" class="mb-4" @dismiss="error = ''" />
+    <AppAlert
+      v-if="error"
+      type="error"
+      :message="error"
+      class="mb-4"
+      @dismiss="error = ''"
+    />
 
     <AppCard padding="none">
       <div class="p-4 border-b border-slate-100 flex flex-wrap gap-3 items-end">
-        <AppSelect v-model="busId" :options="busOptions" placeholder="Todos los autobuses" />
-        <AppSelect v-model="categoryFilter" :options="categoryOptions" placeholder="Todas las categorías" />
-        <AppInput v-model="dateFrom" type="date" label="Desde" />
-        <AppInput v-model="dateTo" type="date" label="Hasta" />
+        <AppSelect
+          v-model="busId"
+          :options="busOptions"
+          placeholder="Todos los autobuses"
+        />
+        <AppSelect
+          v-model="categoryFilter"
+          :options="categoryOptions"
+          placeholder="Todas las categorías"
+        />
+        <AppInput
+          v-model="dateFrom"
+          type="date"
+          label="Desde"
+        />
+        <AppInput
+          v-model="dateTo"
+          type="date"
+          label="Hasta"
+        />
       </div>
 
       <div class="p-4">
-        <AppTable :columns="columns" :rows="expenses" :loading="loading" empty-message="No se encontraron gastos.">
+        <AppTable
+          :columns="columns"
+          :rows="expenses"
+          :loading="loading"
+          empty-message="No se encontraron gastos."
+        >
           <template #cell-date="{ row }">
             {{ formatDate(row.date) }}
           </template>
@@ -140,7 +189,12 @@ onMounted(() => {
             {{ row.bus?.plate ?? '—' }}
           </template>
           <template #cell-category="{ row }">
-            <AppBadge v-if="row.category" :variant="row.category.color">{{ row.category.name }}</AppBadge>
+            <AppBadge
+              v-if="row.category"
+              :variant="row.category.color"
+            >
+              {{ row.category.name }}
+            </AppBadge>
             <span v-else>—</span>
           </template>
           <template #cell-amount="{ row }">
@@ -148,14 +202,29 @@ onMounted(() => {
           </template>
           <template #cell-actions="{ row }">
             <div class="flex items-center gap-2">
-              <AppButton size="sm" variant="outline" @click="router.push(`/expenses/${row.id}/edit`)">Editar</AppButton>
-              <AppButton size="sm" variant="danger" @click="deleteTarget = row">Eliminar</AppButton>
+              <AppButton
+                size="sm"
+                variant="outline"
+                @click="router.push(`/expenses/${row.id}/edit`)"
+              >
+                Editar
+              </AppButton>
+              <AppButton
+                size="sm"
+                variant="danger"
+                @click="deleteTarget = row"
+              >
+                Eliminar
+              </AppButton>
             </div>
           </template>
         </AppTable>
       </div>
 
-      <div v-if="!loading && meta.totalPages > 1" class="px-4 pb-4">
+      <div
+        v-if="!loading && meta.totalPages > 1"
+        class="px-4 pb-4"
+      >
         <AppPagination
           :current-page="meta.currentPage"
           :total-pages="meta.totalPages"

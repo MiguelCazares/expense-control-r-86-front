@@ -59,21 +59,39 @@ onMounted(() => {
             v-if="open"
             :class="['w-full bg-white rounded-2xl shadow-2xl overflow-hidden', sizeClasses]"
           >
-            <div v-if="title" class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-              <h3 class="text-lg font-semibold text-slate-800">{{ title }}</h3>
+            <div
+              v-if="title"
+              class="flex items-center justify-between px-6 py-4 border-b border-slate-100"
+            >
+              <h3 class="text-lg font-semibold text-slate-800">
+                {{ title }}
+              </h3>
               <button
                 class="p-1 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
                 @click="emit('close')"
               >
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <svg
+                  class="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             </div>
             <div class="p-6">
               <slot />
             </div>
-            <div v-if="$slots.footer" class="px-6 py-4 border-t border-slate-100 bg-slate-50">
+            <div
+              v-if="$slots.footer"
+              class="px-6 py-4 border-t border-slate-100 bg-slate-50"
+            >
               <slot name="footer" />
             </div>
           </div>

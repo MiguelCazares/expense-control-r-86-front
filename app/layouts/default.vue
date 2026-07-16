@@ -7,7 +7,8 @@ const uiStore = useUiStore()
 onMounted(() => {
   if (window.innerWidth >= 1024) {
     uiStore.openSidebar()
-  } else {
+  }
+  else {
     uiStore.closeSidebar()
   }
 })

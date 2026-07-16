@@ -8,10 +8,10 @@ export default defineNuxtPlugin(() => {
     authStore.init()
   }
 
-  const $api = (url: string, opts: Record<string, any> = {}) => {
+  const $api = <T = any>(url: string, opts: Record<string, any> = {}) => {
     const token = authStore.token
 
-    return $fetch(url, {
+    return $fetch<T>(url, {
       baseURL: config.public.apiBase,
       ...opts,
       headers: {

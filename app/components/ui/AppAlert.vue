@@ -50,17 +50,39 @@ const config = computed(() => {
     v-if="!dismissed"
     :class="['flex items-start gap-3 px-4 py-3 rounded-lg border', config.bg]"
   >
-    <svg :class="['h-5 w-5 shrink-0 mt-0.5', config.icon]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="config.iconPath" />
+    <svg
+      :class="['h-5 w-5 shrink-0 mt-0.5', config.icon]"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        :d="config.iconPath"
+      />
     </svg>
-    <p :class="['text-sm flex-1', config.text]">{{ message }}</p>
+    <p :class="['text-sm flex-1', config.text]">
+      {{ message }}
+    </p>
     <button
       v-if="dismissible"
       :class="['shrink-0 p-0.5 rounded hover:opacity-70 transition-opacity', config.icon]"
       @click="dismissed = true; emit('dismiss')"
     >
-      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      <svg
+        class="h-4 w-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
       </svg>
     </button>
   </div>

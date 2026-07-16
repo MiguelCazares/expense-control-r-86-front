@@ -33,9 +33,11 @@ const onSubmit = async () => {
     authStore.setToken(res.data.accessToken)
     if (res.data.owner) authStore.setOwner(res.data.owner)
     await navigateTo('/dashboard')
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Credenciales inválidas. Inténtalo de nuevo.')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -44,12 +46,24 @@ const onSubmit = async () => {
 <template>
   <div class="p-8">
     <div class="mb-6">
-      <h2 class="text-2xl font-bold text-slate-800">Bienvenido</h2>
-      <p class="text-slate-500 text-sm mt-1">Inicia sesión para continuar</p>
+      <h2 class="text-2xl font-bold text-slate-800">
+        Bienvenido
+      </h2>
+      <p class="text-slate-500 text-sm mt-1">
+        Inicia sesión para continuar
+      </p>
     </div>
 
-    <form class="space-y-4" @submit.prevent="onSubmit">
-      <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
+    <form
+      class="space-y-4"
+      @submit.prevent="onSubmit"
+    >
+      <AppAlert
+        v-if="error"
+        type="error"
+        :message="error"
+        @dismiss="error = ''"
+      />
 
       <AppInput
         v-model="form.email"
@@ -69,14 +83,23 @@ const onSubmit = async () => {
         :disabled="loading"
       />
 
-      <AppButton type="submit" variant="primary" size="lg" :loading="loading" class="w-full mt-2">
+      <AppButton
+        type="submit"
+        variant="primary"
+        size="lg"
+        :loading="loading"
+        class="w-full mt-2"
+      >
         Iniciar sesión
       </AppButton>
     </form>
 
     <p class="text-center text-sm text-slate-500 mt-6">
       ¿No tienes cuenta?
-      <NuxtLink to="/auth/register" class="text-blue-600 font-medium hover:underline">
+      <NuxtLink
+        to="/auth/register"
+        class="text-blue-600 font-medium hover:underline"
+      >
         Créala
       </NuxtLink>
     </p>

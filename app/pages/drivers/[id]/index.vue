@@ -33,9 +33,11 @@ const fetchDriver = async () => {
   error.value = ''
   try {
     driver.value = await getOne(id)
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar el conductor')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -45,14 +47,20 @@ const fetchAssignments = async () => {
     const data = await getAssignments(id, { page: assignPage.value, limit: 10 })
     assignments.value = data.data ?? data
     if (data.meta) assignMeta.value = data.meta
-  } catch {}
+  }
+  catch {
+    // Carga secundaria: si falla, la vista sigue siendo útil sin asignaciones
+  }
 }
 
 const fetchBuses = async () => {
   try {
     const data = await listBuses({ limit: 100 })
     buses.value = data.data ?? data
-  } catch {}
+  }
+  catch {
+    // Carga secundaria: si falla, el selector de autobuses queda vacío
+  }
 }
 
 const submitAssignment = async () => {
@@ -69,9 +77,11 @@ const submitAssignment = async () => {
     assignForm.date = ''
     showAssignForm.value = false
     fetchAssignments()
-  } catch (err: any) {
+  }
+  catch (err: any) {
     assignError.value = getApiErrorMessage(err, 'Error al agregar la asignación')
-  } finally {
+  }
+  finally {
     assignLoading.value = false
   }
 }
@@ -84,37 +94,86 @@ onMounted(async () => {
 })
 
 const busOptions = computed(() =>
-  buses.value.map(b => ({ label: `${b.plate} - ${b.number}`, value: b.id }))
+  buses.value.map(b => ({ label: `${b.plate} - ${b.number}`, value: b.id })),
 )
 </script>
 
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <AppButton variant="ghost" size="sm" @click="router.push('/drivers')">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <AppButton
+        variant="ghost"
+        size="sm"
+        @click="router.push('/drivers')"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Volver
       </AppButton>
-      <h1 class="text-2xl font-bold text-slate-800">Detalles del conductor</h1>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Detalles del conductor
+      </h1>
     </div>
 
-    <AppAlert v-if="error" type="error" :message="error" class="mb-4" />
+    <AppAlert
+      v-if="error"
+      type="error"
+      :message="error"
+      class="mb-4"
+    />
 
-    <div v-if="loading" class="flex justify-center py-16">
-      <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+    <div
+      v-if="loading"
+      class="flex justify-center py-16"
+    >
+      <svg
+        class="animate-spin h-8 w-8 text-blue-500"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        />
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        />
       </svg>
     </div>
 
-    <div v-else-if="driver" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div
+      v-else-if="driver"
+      class="grid grid-cols-1 lg:grid-cols-3 gap-6"
+    >
       <!-- Driver info -->
       <div class="lg:col-span-1">
         <AppCard>
           <template #header>
-            <AppButton size="sm" variant="outline" @click="router.push(`/drivers/${id}/edit`)">Editar</AppButton>
+            <AppButton
+              size="sm"
+              variant="outline"
+              @click="router.push(`/drivers/${id}/edit`)"
+            >
+              Editar
+            </AppButton>
           </template>
           <div class="space-y-3">
             <div class="flex justify-between text-sm">
@@ -137,7 +196,11 @@ const busOptions = computed(() =>
       <div class="lg:col-span-2 space-y-4">
         <AppCard title="Asignaciones de autobús">
           <template #header>
-            <AppButton size="sm" variant="primary" @click="showAssignForm = !showAssignForm">
+            <AppButton
+              size="sm"
+              variant="primary"
+              @click="showAssignForm = !showAssignForm"
+            >
               {{ showAssignForm ? 'Cancelar' : '+ Agregar asignación' }}
             </AppButton>
           </template>
@@ -148,9 +211,20 @@ const busOptions = computed(() =>
             enter-from-class="opacity-0 -translate-y-2"
             enter-to-class="opacity-100 translate-y-0"
           >
-            <div v-if="showAssignForm" class="mb-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
-              <h4 class="text-sm font-medium text-slate-700 mb-3">Nueva asignación</h4>
-              <AppAlert v-if="assignError" type="error" :message="assignError" class="mb-3" @dismiss="assignError = ''" />
+            <div
+              v-if="showAssignForm"
+              class="mb-4 p-4 bg-slate-50 rounded-xl border border-slate-200"
+            >
+              <h4 class="text-sm font-medium text-slate-700 mb-3">
+                Nueva asignación
+              </h4>
+              <AppAlert
+                v-if="assignError"
+                type="error"
+                :message="assignError"
+                class="mb-3"
+                @dismiss="assignError = ''"
+              />
               <div class="grid grid-cols-2 gap-3">
                 <AppSelect
                   v-model="assignForm.busId"
@@ -167,7 +241,12 @@ const busOptions = computed(() =>
                 />
               </div>
               <div class="flex justify-end mt-3">
-                <AppButton variant="primary" size="sm" :loading="assignLoading" @click="submitAssignment">
+                <AppButton
+                  variant="primary"
+                  size="sm"
+                  :loading="assignLoading"
+                  @click="submitAssignment"
+                >
                   Agregar asignación
                 </AppButton>
               </div>
@@ -187,7 +266,10 @@ const busOptions = computed(() =>
             </template>
           </AppTable>
 
-          <div v-if="assignMeta.totalPages > 1" class="mt-4">
+          <div
+            v-if="assignMeta.totalPages > 1"
+            class="mt-4"
+          >
             <AppPagination
               :current-page="assignMeta.currentPage"
               :total-pages="assignMeta.totalPages"

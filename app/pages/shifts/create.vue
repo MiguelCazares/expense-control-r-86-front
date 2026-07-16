@@ -23,10 +23,10 @@ const error = ref('')
 const errors = reactive<Record<string, string>>({})
 
 const driverOptions = computed(() =>
-  drivers.value.map(d => ({ label: `${d.name} ${d.lastName}`, value: d.id }))
+  drivers.value.map(d => ({ label: `${d.name} ${d.lastName}`, value: d.id })),
 )
 const busOptions = computed(() =>
-  buses.value.map(b => ({ label: `${b.plate} - ${b.number}`, value: b.id }))
+  buses.value.map(b => ({ label: `${b.plate} - ${b.number}`, value: b.id })),
 )
 
 const fetchOptions = async () => {
@@ -62,9 +62,11 @@ const onSubmit = async () => {
     })
     uiStore.notify('Turno creado correctamente', 'success')
     router.push('/shifts')
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al crear el turno')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -75,19 +77,43 @@ onMounted(fetchOptions)
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <AppButton variant="ghost" size="sm" @click="router.push('/shifts')">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <AppButton
+        variant="ghost"
+        size="sm"
+        @click="router.push('/shifts')"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Volver
       </AppButton>
-      <h1 class="text-2xl font-bold text-slate-800">Nuevo turno</h1>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Nuevo turno
+      </h1>
     </div>
 
     <div class="max-w-2xl">
       <AppCard title="Detalles del turno">
-        <form class="space-y-4" @submit.prevent="onSubmit">
-          <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
+        <form
+          class="space-y-4"
+          @submit.prevent="onSubmit"
+        >
+          <AppAlert
+            v-if="error"
+            type="error"
+            :message="error"
+            @dismiss="error = ''"
+          />
 
           <AppSelect
             v-model="form.driverId"
@@ -108,8 +134,22 @@ onMounted(fetchOptions)
           />
 
           <div class="grid grid-cols-2 gap-4">
-            <AppInput v-model="form.date" label="Fecha" type="date" :required="true" :error="errors.date" :disabled="loading" />
-            <AppInput v-model="form.startTime" label="Hora de inicio" type="time" :required="true" :error="errors.startTime" :disabled="loading" />
+            <AppInput
+              v-model="form.date"
+              label="Fecha"
+              type="date"
+              :required="true"
+              :error="errors.date"
+              :disabled="loading"
+            />
+            <AppInput
+              v-model="form.startTime"
+              label="Hora de inicio"
+              type="time"
+              :required="true"
+              :error="errors.startTime"
+              :disabled="loading"
+            />
           </div>
 
           <div class="flex flex-col gap-1">
@@ -123,10 +163,19 @@ onMounted(fetchOptions)
           </div>
 
           <div class="flex gap-3 justify-end pt-2">
-            <AppButton variant="outline" type="button" :disabled="loading" @click="router.push('/shifts')">
+            <AppButton
+              variant="outline"
+              type="button"
+              :disabled="loading"
+              @click="router.push('/shifts')"
+            >
               Cancelar
             </AppButton>
-            <AppButton variant="primary" type="submit" :loading="loading">
+            <AppButton
+              variant="primary"
+              type="submit"
+              :loading="loading"
+            >
               Crear turno
             </AppButton>
           </div>

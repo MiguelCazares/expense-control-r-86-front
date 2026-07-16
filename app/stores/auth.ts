@@ -19,9 +19,9 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.token,
-    ownerName: (state) => state.owner?.name ?? '',
-    ownerEmail: (state) => state.owner?.email ?? '',
+    isAuthenticated: state => !!state.token,
+    ownerName: state => state.owner?.name ?? '',
+    ownerEmail: state => state.owner?.email ?? '',
   },
 
   actions: {
@@ -35,7 +35,8 @@ export const useAuthStore = defineStore('auth', {
         if (savedOwner) {
           try {
             this.owner = JSON.parse(savedOwner)
-          } catch {
+          }
+          catch {
             this.owner = null
           }
         }
