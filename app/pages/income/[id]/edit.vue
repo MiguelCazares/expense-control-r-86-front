@@ -26,7 +26,7 @@ const error = ref('')
 const errors = reactive<Record<string, string>>({})
 
 const busOptions = computed(() =>
-  buses.value.map(b => ({ label: `${b.plate} - ${b.number}`, value: b.id }))
+  buses.value.map(b => ({ label: `${b.plate} - ${b.number}`, value: b.id })),
 )
 const shiftOptions = computed(() => [
   { label: 'Sin turno (independiente)', value: '' },
@@ -52,9 +52,11 @@ const fetchAll = async () => {
     form.notes = record.notes ?? ''
     buses.value = b?.data ?? b ?? []
     shifts.value = s?.data ?? s ?? []
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar el registro de ingreso')
-  } finally {
+  }
+  finally {
     fetching.value = false
   }
 }
@@ -82,9 +84,11 @@ const onSubmit = async () => {
     })
     uiStore.notify('Ingreso actualizado correctamente', 'success')
     router.push('/income')
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al actualizar el ingreso')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -95,26 +99,70 @@ onMounted(fetchAll)
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <AppButton variant="ghost" size="sm" @click="router.push('/income')">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <AppButton
+        variant="ghost"
+        size="sm"
+        @click="router.push('/income')"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Volver
       </AppButton>
-      <h1 class="text-2xl font-bold text-slate-800">Editar ingreso</h1>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Editar ingreso
+      </h1>
     </div>
 
     <div class="max-w-2xl">
       <AppCard title="Detalles del ingreso">
-        <div v-if="fetching" class="flex justify-center py-8">
-          <svg class="animate-spin h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+        <div
+          v-if="fetching"
+          class="flex justify-center py-8"
+        >
+          <svg
+            class="animate-spin h-6 w-6 text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            />
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
         </div>
 
-        <form v-else class="space-y-4" @submit.prevent="onSubmit">
-          <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
+        <form
+          v-else
+          class="space-y-4"
+          @submit.prevent="onSubmit"
+        >
+          <AppAlert
+            v-if="error"
+            type="error"
+            :message="error"
+            @dismiss="error = ''"
+          />
 
           <AppSelect
             v-model="form.busId"
@@ -133,8 +181,23 @@ onMounted(fetchAll)
           />
 
           <div class="grid grid-cols-2 gap-4">
-            <AppInput v-model="form.date" label="Fecha" type="date" :required="true" :error="errors.date" :disabled="loading" />
-            <AppInput v-model="form.amount" label="Monto ($)" type="number" placeholder="0.00" :required="true" :error="errors.amount" :disabled="loading" />
+            <AppInput
+              v-model="form.date"
+              label="Fecha"
+              type="date"
+              :required="true"
+              :error="errors.date"
+              :disabled="loading"
+            />
+            <AppInput
+              v-model="form.amount"
+              label="Monto ($)"
+              type="number"
+              placeholder="0.00"
+              :required="true"
+              :error="errors.amount"
+              :disabled="loading"
+            />
           </div>
 
           <div class="flex flex-col gap-1">
@@ -148,10 +211,19 @@ onMounted(fetchAll)
           </div>
 
           <div class="flex gap-3 justify-end pt-2">
-            <AppButton variant="outline" type="button" :disabled="loading" @click="router.push('/income')">
+            <AppButton
+              variant="outline"
+              type="button"
+              :disabled="loading"
+              @click="router.push('/income')"
+            >
               Cancelar
             </AppButton>
-            <AppButton variant="primary" type="submit" :loading="loading">
+            <AppButton
+              variant="primary"
+              type="submit"
+              :loading="loading"
+            >
               Guardar cambios
             </AppButton>
           </div>

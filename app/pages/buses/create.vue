@@ -39,9 +39,11 @@ const onSubmit = async () => {
     await create({ ...form, year: Number(form.year) })
     uiStore.notify('Autobús creado correctamente', 'success')
     router.push('/buses')
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al crear el autobús')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -50,40 +52,116 @@ const onSubmit = async () => {
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <AppButton variant="ghost" size="sm" @click="router.push('/buses')">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <AppButton
+        variant="ghost"
+        size="sm"
+        @click="router.push('/buses')"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Volver
       </AppButton>
-      <h1 class="text-2xl font-bold text-slate-800">Agregar nuevo autobús</h1>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Agregar nuevo autobús
+      </h1>
     </div>
 
     <div class="max-w-2xl">
       <AppCard title="Información del autobús">
-        <form class="space-y-4" @submit.prevent="onSubmit">
-          <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
+        <form
+          class="space-y-4"
+          @submit.prevent="onSubmit"
+        >
+          <AppAlert
+            v-if="error"
+            type="error"
+            :message="error"
+            @dismiss="error = ''"
+          />
 
           <div class="grid grid-cols-2 gap-4">
-            <AppInput v-model="form.plate" label="Placa" placeholder="ABC-123" :required="true" :error="errors.plate" :disabled="loading" />
-            <AppInput v-model="form.number" label="Número" placeholder="001" :required="true" :error="errors.number" :disabled="loading" />
+            <AppInput
+              v-model="form.plate"
+              label="Placa"
+              placeholder="ABC-123"
+              :required="true"
+              :error="errors.plate"
+              :disabled="loading"
+            />
+            <AppInput
+              v-model="form.number"
+              label="Número"
+              placeholder="001"
+              :required="true"
+              :error="errors.number"
+              :disabled="loading"
+            />
           </div>
 
           <div class="grid grid-cols-2 gap-4">
-            <AppInput v-model="form.brand" label="Marca" placeholder="Mercedes-Benz" :required="true" :error="errors.brand" :disabled="loading" />
-            <AppInput v-model="form.model" label="Modelo" placeholder="Sprinter" :required="true" :error="errors.model" :disabled="loading" />
+            <AppInput
+              v-model="form.brand"
+              label="Marca"
+              placeholder="Mercedes-Benz"
+              :required="true"
+              :error="errors.brand"
+              :disabled="loading"
+            />
+            <AppInput
+              v-model="form.model"
+              label="Modelo"
+              placeholder="Sprinter"
+              :required="true"
+              :error="errors.model"
+              :disabled="loading"
+            />
           </div>
 
           <div class="grid grid-cols-2 gap-4">
-            <AppInput v-model="form.year" label="Año" type="number" placeholder="2024" :required="true" :error="errors.year" :disabled="loading" />
-            <AppInput v-model="form.route" label="Ruta" placeholder="Centro - Aeropuerto" :required="true" :error="errors.route" :disabled="loading" />
+            <AppInput
+              v-model="form.year"
+              label="Año"
+              type="number"
+              placeholder="2024"
+              :required="true"
+              :error="errors.year"
+              :disabled="loading"
+            />
+            <AppInput
+              v-model="form.route"
+              label="Ruta"
+              placeholder="Centro - Aeropuerto"
+              :required="true"
+              :error="errors.route"
+              :disabled="loading"
+            />
           </div>
 
           <div class="flex gap-3 justify-end pt-2">
-            <AppButton variant="outline" type="button" :disabled="loading" @click="router.push('/buses')">
+            <AppButton
+              variant="outline"
+              type="button"
+              :disabled="loading"
+              @click="router.push('/buses')"
+            >
               Cancelar
             </AppButton>
-            <AppButton variant="primary" type="submit" :loading="loading">
+            <AppButton
+              variant="primary"
+              type="submit"
+              :loading="loading"
+            >
               Crear autobús
             </AppButton>
           </div>

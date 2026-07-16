@@ -27,9 +27,11 @@ const fetchCategory = async () => {
     form.name = category.name ?? ''
     form.color = category.color ?? 'default'
     slug.value = category.slug ?? ''
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar la categoría')
-  } finally {
+  }
+  finally {
     fetching.value = false
   }
 }
@@ -49,9 +51,11 @@ const onSubmit = async () => {
     await update(id, { name: form.name.trim(), color: form.color })
     uiStore.notify('Categoría actualizada correctamente', 'success')
     router.push('/categories')
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al actualizar la categoría')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -62,21 +66,51 @@ onMounted(fetchCategory)
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <AppButton variant="ghost" size="sm" @click="router.push('/categories')">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <AppButton
+        variant="ghost"
+        size="sm"
+        @click="router.push('/categories')"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Volver
       </AppButton>
-      <h1 class="text-2xl font-bold text-slate-800">Editar categoría</h1>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Editar categoría
+      </h1>
     </div>
 
     <div class="max-w-2xl">
       <AppCard title="Información de la categoría">
-        <div v-if="fetching" class="py-8 text-center text-slate-500">Cargando...</div>
+        <div
+          v-if="fetching"
+          class="py-8 text-center text-slate-500"
+        >
+          Cargando...
+        </div>
 
-        <form v-else class="space-y-4" @submit.prevent="onSubmit">
-          <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
+        <form
+          v-else
+          class="space-y-4"
+          @submit.prevent="onSubmit"
+        >
+          <AppAlert
+            v-if="error"
+            type="error"
+            :message="error"
+            @dismiss="error = ''"
+          />
 
           <AppInput
             v-model="form.name"
@@ -86,7 +120,10 @@ onMounted(fetchCategory)
             :disabled="loading"
           />
 
-          <p v-if="slug" class="text-xs text-slate-400 -mt-2">
+          <p
+            v-if="slug"
+            class="text-xs text-slate-400 -mt-2"
+          >
             Identificador: <span class="font-mono">{{ slug }}</span>
           </p>
 
@@ -100,14 +137,25 @@ onMounted(fetchCategory)
 
           <div class="flex items-center gap-2 text-sm text-slate-500">
             <span>Vista previa:</span>
-            <AppBadge :variant="form.color">{{ form.name || 'Categoría' }}</AppBadge>
+            <AppBadge :variant="form.color">
+              {{ form.name || 'Categoría' }}
+            </AppBadge>
           </div>
 
           <div class="flex gap-3 justify-end pt-2">
-            <AppButton variant="outline" type="button" :disabled="loading" @click="router.push('/categories')">
+            <AppButton
+              variant="outline"
+              type="button"
+              :disabled="loading"
+              @click="router.push('/categories')"
+            >
               Cancelar
             </AppButton>
-            <AppButton variant="primary" type="submit" :loading="loading">
+            <AppButton
+              variant="primary"
+              type="submit"
+              :loading="loading"
+            >
               Guardar cambios
             </AppButton>
           </div>

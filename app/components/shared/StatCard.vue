@@ -28,14 +28,33 @@ const colorConfig = computed(() => {
   <div :class="['rounded-xl border border-slate-200 bg-white p-6 shadow-sm']">
     <div class="flex items-start justify-between">
       <div>
-        <p class="text-sm font-medium text-slate-500">{{ title }}</p>
-        <p class="mt-1 text-3xl font-bold text-slate-800">{{ value }}</p>
-        <p v-if="subtitle" class="mt-1 text-sm text-slate-500">{{ subtitle }}</p>
+        <p class="text-sm font-medium text-slate-500">
+          {{ title }}
+        </p>
+        <p class="mt-1 text-3xl font-bold text-slate-800">
+          {{ value }}
+        </p>
+        <p
+          v-if="subtitle"
+          class="mt-1 text-sm text-slate-500"
+        >
+          {{ subtitle }}
+        </p>
       </div>
       <div :class="['w-12 h-12 rounded-xl flex items-center justify-center', colorConfig.icon]">
         <slot name="icon">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+            />
           </svg>
         </slot>
       </div>

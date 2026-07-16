@@ -8,7 +8,7 @@ export interface Category {
   active: boolean
 }
 
-export const CATEGORY_COLORS: { label: string; value: CategoryColor }[] = [
+export const CATEGORY_COLORS: { label: string, value: CategoryColor }[] = [
   { label: 'Gris', value: 'default' },
   { label: 'Verde', value: 'success' },
   { label: 'Ámbar', value: 'warning' },
@@ -35,14 +35,14 @@ export const useCategories = () => {
     return res.data.category
   }
 
-  const create = async (body: { name: string; color?: CategoryColor }) => {
+  const create = async (body: { name: string, color?: CategoryColor }) => {
     const res = await $api<any>('/categories', { method: 'POST', body })
     return res.data.category
   }
 
   const update = async (
     id: string,
-    body: Partial<{ name: string; color: CategoryColor; active: boolean }>
+    body: Partial<{ name: string, color: CategoryColor, active: boolean }>,
   ) => {
     const res = await $api<any>(`/categories/${id}`, { method: 'PATCH', body })
     return res.data.category

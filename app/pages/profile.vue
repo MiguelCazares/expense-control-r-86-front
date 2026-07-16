@@ -22,9 +22,11 @@ const fetchProfile = async () => {
     form.name = owner.name
     form.email = owner.email
     authStore.setOwner(owner)
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar el perfil')
-  } finally {
+  }
+  finally {
     fetching.value = false
   }
 }
@@ -48,9 +50,11 @@ const onSubmit = async () => {
     form.password = ''
     form.confirmPassword = ''
     uiStore.notify('Perfil actualizado correctamente', 'success')
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al actualizar el perfil')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -61,20 +65,52 @@ onMounted(fetchProfile)
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="text-2xl font-bold text-slate-800">Mi perfil</h1>
-      <p class="text-slate-500 mt-1">Administra la información de tu cuenta</p>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Mi perfil
+      </h1>
+      <p class="text-slate-500 mt-1">
+        Administra la información de tu cuenta
+      </p>
     </div>
 
     <div class="max-w-xl">
       <AppCard title="Detalles de la cuenta">
-        <div v-if="fetching" class="flex justify-center py-8">
-          <svg class="animate-spin h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+        <div
+          v-if="fetching"
+          class="flex justify-center py-8"
+        >
+          <svg
+            class="animate-spin h-6 w-6 text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            />
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
         </div>
-        <form v-else class="space-y-4" @submit.prevent="onSubmit">
-          <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
+        <form
+          v-else
+          class="space-y-4"
+          @submit.prevent="onSubmit"
+        >
+          <AppAlert
+            v-if="error"
+            type="error"
+            :message="error"
+            @dismiss="error = ''"
+          />
 
           <AppInput
             v-model="form.name"
@@ -93,7 +129,9 @@ onMounted(fetchProfile)
           />
 
           <div class="border-t border-slate-100 pt-4">
-            <p class="text-sm font-medium text-slate-700 mb-3">Cambiar contraseña <span class="text-slate-400 font-normal">(dejar en blanco para mantener la actual)</span></p>
+            <p class="text-sm font-medium text-slate-700 mb-3">
+              Cambiar contraseña <span class="text-slate-400 font-normal">(dejar en blanco para mantener la actual)</span>
+            </p>
             <div class="space-y-4">
               <AppInput
                 v-model="form.password"
@@ -113,7 +151,11 @@ onMounted(fetchProfile)
           </div>
 
           <div class="flex justify-end pt-2">
-            <AppButton type="submit" variant="primary" :loading="loading">
+            <AppButton
+              type="submit"
+              variant="primary"
+              :loading="loading"
+            >
               Guardar cambios
             </AppButton>
           </div>

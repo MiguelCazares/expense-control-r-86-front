@@ -21,9 +21,11 @@ const fetchBus = async () => {
   error.value = ''
   try {
     bus.value = await getOne(id)
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar los detalles del autobús')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -32,9 +34,11 @@ const fetchSummary = async () => {
   summaryLoading.value = true
   try {
     summary.value = await getSummary(id, selectedMonth.value)
-  } catch (err: any) {
+  }
+  catch {
     summary.value = null
-  } finally {
+  }
+  finally {
     summaryLoading.value = false
   }
 }
@@ -57,30 +61,77 @@ const profit = computed(() => {
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <AppButton variant="ghost" size="sm" @click="router.push('/buses')">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <AppButton
+        variant="ghost"
+        size="sm"
+        @click="router.push('/buses')"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Volver
       </AppButton>
-      <h1 class="text-2xl font-bold text-slate-800">Detalles del autobús</h1>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Detalles del autobús
+      </h1>
     </div>
 
-    <AppAlert v-if="error" type="error" :message="error" class="mb-4" />
+    <AppAlert
+      v-if="error"
+      type="error"
+      :message="error"
+      class="mb-4"
+    />
 
-    <div v-if="loading" class="flex justify-center py-16">
-      <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+    <div
+      v-if="loading"
+      class="flex justify-center py-16"
+    >
+      <svg
+        class="animate-spin h-8 w-8 text-blue-500"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        />
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        />
       </svg>
     </div>
 
-    <div v-else-if="bus" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div
+      v-else-if="bus"
+      class="grid grid-cols-1 lg:grid-cols-3 gap-6"
+    >
       <!-- Bus info -->
       <div class="lg:col-span-1">
         <AppCard>
           <template #header>
-            <AppButton size="sm" variant="outline" @click="router.push(`/buses/${id}/edit`)">
+            <AppButton
+              size="sm"
+              variant="outline"
+              @click="router.push(`/buses/${id}/edit`)"
+            >
               Editar
             </AppButton>
           </template>
@@ -121,31 +172,68 @@ const profit = computed(() => {
               v-model="selectedMonth"
               type="month"
               class="rounded-lg border border-slate-300 px-3 py-1.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            >
           </template>
 
-          <div v-if="summaryLoading" class="flex justify-center py-8">
-            <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          <div
+            v-if="summaryLoading"
+            class="flex justify-center py-8"
+          >
+            <svg
+              class="animate-spin h-5 w-5 text-blue-500"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              />
             </svg>
           </div>
 
-          <div v-else-if="summary" class="grid grid-cols-3 gap-4">
+          <div
+            v-else-if="summary"
+            class="grid grid-cols-3 gap-4"
+          >
             <div class="text-center p-4 bg-emerald-50 rounded-xl">
-              <p class="text-xs font-medium text-emerald-600 uppercase tracking-wide">Ingresos</p>
-              <p class="text-2xl font-bold text-emerald-700 mt-1">{{ formatCurrency(summary.totalIncome) }}</p>
+              <p class="text-xs font-medium text-emerald-600 uppercase tracking-wide">
+                Ingresos
+              </p>
+              <p class="text-2xl font-bold text-emerald-700 mt-1">
+                {{ formatCurrency(summary.totalIncome) }}
+              </p>
             </div>
             <div class="text-center p-4 bg-red-50 rounded-xl">
-              <p class="text-xs font-medium text-red-600 uppercase tracking-wide">Gastos</p>
-              <p class="text-2xl font-bold text-red-700 mt-1">{{ formatCurrency(summary.totalExpenses) }}</p>
+              <p class="text-xs font-medium text-red-600 uppercase tracking-wide">
+                Gastos
+              </p>
+              <p class="text-2xl font-bold text-red-700 mt-1">
+                {{ formatCurrency(summary.totalExpenses) }}
+              </p>
             </div>
             <div :class="['text-center p-4 rounded-xl', profit >= 0 ? 'bg-blue-50' : 'bg-orange-50']">
-              <p :class="['text-xs font-medium uppercase tracking-wide', profit >= 0 ? 'text-blue-600' : 'text-orange-600']">Ganancia</p>
-              <p :class="['text-2xl font-bold mt-1', profit >= 0 ? 'text-blue-700' : 'text-orange-700']">{{ formatCurrency(profit) }}</p>
+              <p :class="['text-xs font-medium uppercase tracking-wide', profit >= 0 ? 'text-blue-600' : 'text-orange-600']">
+                Ganancia
+              </p>
+              <p :class="['text-2xl font-bold mt-1', profit >= 0 ? 'text-blue-700' : 'text-orange-700']">
+                {{ formatCurrency(profit) }}
+              </p>
             </div>
           </div>
-          <div v-else class="text-center py-8 text-slate-400 text-sm">
+          <div
+            v-else
+            class="text-center py-8 text-slate-400 text-sm"
+          >
             No hay datos de resumen disponibles para este mes.
           </div>
         </AppCard>

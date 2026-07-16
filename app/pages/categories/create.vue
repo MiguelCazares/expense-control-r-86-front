@@ -31,9 +31,11 @@ const onSubmit = async () => {
     await create({ name: form.name.trim(), color: form.color })
     uiStore.notify('Categoría creada correctamente', 'success')
     router.push('/categories')
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al crear la categoría')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -42,19 +44,43 @@ const onSubmit = async () => {
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <AppButton variant="ghost" size="sm" @click="router.push('/categories')">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <AppButton
+        variant="ghost"
+        size="sm"
+        @click="router.push('/categories')"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Volver
       </AppButton>
-      <h1 class="text-2xl font-bold text-slate-800">Nueva categoría</h1>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Nueva categoría
+      </h1>
     </div>
 
     <div class="max-w-2xl">
       <AppCard title="Información de la categoría">
-        <form class="space-y-4" @submit.prevent="onSubmit">
-          <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
+        <form
+          class="space-y-4"
+          @submit.prevent="onSubmit"
+        >
+          <AppAlert
+            v-if="error"
+            type="error"
+            :message="error"
+            @dismiss="error = ''"
+          />
 
           <AppInput
             v-model="form.name"
@@ -75,14 +101,25 @@ const onSubmit = async () => {
 
           <div class="flex items-center gap-2 text-sm text-slate-500">
             <span>Vista previa:</span>
-            <AppBadge :variant="form.color">{{ form.name || 'Categoría' }}</AppBadge>
+            <AppBadge :variant="form.color">
+              {{ form.name || 'Categoría' }}
+            </AppBadge>
           </div>
 
           <div class="flex gap-3 justify-end pt-2">
-            <AppButton variant="outline" type="button" :disabled="loading" @click="router.push('/categories')">
+            <AppButton
+              variant="outline"
+              type="button"
+              :disabled="loading"
+              @click="router.push('/categories')"
+            >
               Cancelar
             </AppButton>
-            <AppButton variant="primary" type="submit" :loading="loading">
+            <AppButton
+              variant="primary"
+              type="submit"
+              :loading="loading"
+            >
               Crear categoría
             </AppButton>
           </div>

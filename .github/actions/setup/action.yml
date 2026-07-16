@@ -1,0 +1,19 @@
+name: Setup
+description: Instala pnpm, Node y las dependencias del proyecto
+
+# Equivalente al before_script de GitLab: lo comparten todos los jobs
+# para no repetir los mismos pasos en cada uno.
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version-file: .nvmrc
+        cache: pnpm
+
+    # postinstall (nuxt prepare) genera .nuxt, requerido por eslint y typecheck
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      shell: bash

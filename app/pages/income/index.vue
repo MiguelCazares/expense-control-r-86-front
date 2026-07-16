@@ -46,9 +46,11 @@ const fetchIncome = async () => {
     })
     income.value = data.data ?? data
     if (data.meta) meta.value = data.meta
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar los ingresos')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -56,7 +58,8 @@ const fetchIncome = async () => {
 watch([busId, dateFrom, dateTo], () => {
   if (page.value !== 1) {
     page.value = 1
-  } else {
+  }
+  else {
     fetchIncome()
   }
 })
@@ -70,9 +73,11 @@ const confirmDelete = async () => {
     uiStore.notify('Income record deleted', 'success')
     deleteTarget.value = null
     fetchIncome()
-  } catch (err: any) {
+  }
+  catch (err: any) {
     uiStore.notify(getApiErrorMessage(err, 'Error al eliminar el registro de ingreso'), 'error')
-  } finally {
+  }
+  finally {
     deleting.value = false
   }
 }
@@ -95,28 +100,68 @@ onMounted(() => {
   <div>
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h1 class="text-2xl font-bold text-slate-800">Ingresos</h1>
-        <p class="text-slate-500 mt-1">Registros de ingresos</p>
+        <h1 class="text-2xl font-bold text-slate-800">
+          Ingresos
+        </h1>
+        <p class="text-slate-500 mt-1">
+          Registros de ingresos
+        </p>
       </div>
-      <AppButton variant="primary" @click="router.push('/income/create')">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      <AppButton
+        variant="primary"
+        @click="router.push('/income/create')"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          />
         </svg>
         Registrar ingreso
       </AppButton>
     </div>
 
-    <AppAlert v-if="error" type="error" :message="error" class="mb-4" @dismiss="error = ''" />
+    <AppAlert
+      v-if="error"
+      type="error"
+      :message="error"
+      class="mb-4"
+      @dismiss="error = ''"
+    />
 
     <AppCard padding="none">
       <div class="p-4 border-b border-slate-100 flex flex-wrap gap-3 items-end">
-        <AppSelect v-model="busId" :options="busOptions" placeholder="Todos los autobuses" />
-        <AppInput v-model="dateFrom" type="date" label="Desde" />
-        <AppInput v-model="dateTo" type="date" label="Hasta" />
+        <AppSelect
+          v-model="busId"
+          :options="busOptions"
+          placeholder="Todos los autobuses"
+        />
+        <AppInput
+          v-model="dateFrom"
+          type="date"
+          label="Desde"
+        />
+        <AppInput
+          v-model="dateTo"
+          type="date"
+          label="Hasta"
+        />
       </div>
 
       <div class="p-4">
-        <AppTable :columns="columns" :rows="income" :loading="loading" empty-message="No se encontraron registros de ingresos.">
+        <AppTable
+          :columns="columns"
+          :rows="income"
+          :loading="loading"
+          empty-message="No se encontraron registros de ingresos."
+        >
           <template #cell-date="{ row }">
             {{ formatDate(row.date) }}
           </template>
@@ -128,14 +173,29 @@ onMounted(() => {
           </template>
           <template #cell-actions="{ row }">
             <div class="flex items-center gap-2">
-              <AppButton size="sm" variant="outline" @click="router.push(`/income/${row.id}/edit`)">Editar</AppButton>
-              <AppButton size="sm" variant="danger" @click="deleteTarget = row">Eliminar</AppButton>
+              <AppButton
+                size="sm"
+                variant="outline"
+                @click="router.push(`/income/${row.id}/edit`)"
+              >
+                Editar
+              </AppButton>
+              <AppButton
+                size="sm"
+                variant="danger"
+                @click="deleteTarget = row"
+              >
+                Eliminar
+              </AppButton>
             </div>
           </template>
         </AppTable>
       </div>
 
-      <div v-if="!loading && meta.totalPages > 1" class="px-4 pb-4">
+      <div
+        v-if="!loading && meta.totalPages > 1"
+        class="px-4 pb-4"
+      >
         <AppPagination
           :current-page="meta.currentPage"
           :total-pages="meta.totalPages"

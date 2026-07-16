@@ -35,9 +35,11 @@ const onSubmit = async () => {
     authStore.setToken(res.data.accessToken)
     if (res.data.owner) authStore.setOwner(res.data.owner)
     await navigateTo('/dashboard')
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'El registro falló. Inténtalo de nuevo.')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -46,12 +48,24 @@ const onSubmit = async () => {
 <template>
   <div class="p-8">
     <div class="mb-6">
-      <h2 class="text-2xl font-bold text-slate-800">Crear cuenta</h2>
-      <p class="text-slate-500 text-sm mt-1">Comienza a usar Route Control hoy</p>
+      <h2 class="text-2xl font-bold text-slate-800">
+        Crear cuenta
+      </h2>
+      <p class="text-slate-500 text-sm mt-1">
+        Comienza a usar Route Control hoy
+      </p>
     </div>
 
-    <form class="space-y-4" @submit.prevent="onSubmit">
-      <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
+    <form
+      class="space-y-4"
+      @submit.prevent="onSubmit"
+    >
+      <AppAlert
+        v-if="error"
+        type="error"
+        :message="error"
+        @dismiss="error = ''"
+      />
 
       <AppInput
         v-model="form.name"
@@ -80,14 +94,23 @@ const onSubmit = async () => {
         hint="Debe tener al menos 6 caracteres"
       />
 
-      <AppButton type="submit" variant="primary" size="lg" :loading="loading" class="w-full mt-2">
+      <AppButton
+        type="submit"
+        variant="primary"
+        size="lg"
+        :loading="loading"
+        class="w-full mt-2"
+      >
         Crear cuenta
       </AppButton>
     </form>
 
     <p class="text-center text-sm text-slate-500 mt-6">
       ¿Ya tienes cuenta?
-      <NuxtLink to="/auth/login" class="text-blue-600 font-medium hover:underline">
+      <NuxtLink
+        to="/auth/login"
+        class="text-blue-600 font-medium hover:underline"
+      >
         Inicia sesión
       </NuxtLink>
     </p>

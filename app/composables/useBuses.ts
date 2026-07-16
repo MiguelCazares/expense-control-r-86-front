@@ -1,7 +1,7 @@
 export const useBuses = () => {
   const { $api } = useNuxtApp()
 
-  const list = async (params?: { page?: number; limit?: number; search?: string }) => {
+  const list = async (params?: { page?: number, limit?: number, search?: string }) => {
     const res = await $api<any>('/buses', { params })
     return res.data
   }

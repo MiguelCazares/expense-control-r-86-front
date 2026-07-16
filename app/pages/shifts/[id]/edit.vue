@@ -21,9 +21,11 @@ const fetchShift = async () => {
     form.endTime = shift.endTime ?? ''
     form.notes = shift.notes ?? ''
     form.laps = shift.laps ?? ''
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar el turno')
-  } finally {
+  }
+  finally {
     fetching.value = false
   }
 }
@@ -39,9 +41,11 @@ const onSubmit = async () => {
     })
     uiStore.notify('Turno actualizado correctamente', 'success')
     router.push(`/shifts/${id}`)
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al actualizar el turno')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -52,28 +56,79 @@ onMounted(fetchShift)
 <template>
   <div>
     <div class="flex items-center gap-3 mb-6">
-      <AppButton variant="ghost" size="sm" @click="router.push(`/shifts/${id}`)">
-        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      <AppButton
+        variant="ghost"
+        size="sm"
+        @click="router.push(`/shifts/${id}`)"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
         Volver
       </AppButton>
-      <h1 class="text-2xl font-bold text-slate-800">Editar turno</h1>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Editar turno
+      </h1>
     </div>
 
     <div class="max-w-2xl">
       <AppCard title="Actualizar turno">
-        <div v-if="fetching" class="flex justify-center py-8">
-          <svg class="animate-spin h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+        <div
+          v-if="fetching"
+          class="flex justify-center py-8"
+        >
+          <svg
+            class="animate-spin h-6 w-6 text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            />
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
         </div>
-        <form v-else class="space-y-4" @submit.prevent="onSubmit">
-          <AppAlert v-if="error" type="error" :message="error" @dismiss="error = ''" />
+        <form
+          v-else
+          class="space-y-4"
+          @submit.prevent="onSubmit"
+        >
+          <AppAlert
+            v-if="error"
+            type="error"
+            :message="error"
+            @dismiss="error = ''"
+          />
 
-          <AppInput v-model="form.endTime" label="Hora de fin" type="time" :disabled="loading" />
-          <p class="text-xs text-slate-500 -mt-2">El turno se cierra automáticamente al establecer la hora de fin.</p>
+          <AppInput
+            v-model="form.endTime"
+            label="Hora de fin"
+            type="time"
+            :disabled="loading"
+          />
+          <p class="text-xs text-slate-500 -mt-2">
+            El turno se cierra automáticamente al establecer la hora de fin.
+          </p>
 
           <AppInput
             v-model="form.laps"
@@ -84,7 +139,9 @@ onMounted(fetchShift)
             placeholder="Ej. 12.5"
             :disabled="loading"
           />
-          <p class="text-xs text-slate-500 -mt-2">Número de vueltas completadas, en incrementos de 0.5.</p>
+          <p class="text-xs text-slate-500 -mt-2">
+            Número de vueltas completadas, en incrementos de 0.5.
+          </p>
 
           <div class="flex flex-col gap-1">
             <label class="text-sm font-medium text-slate-700">Notas</label>
@@ -97,10 +154,19 @@ onMounted(fetchShift)
           </div>
 
           <div class="flex gap-3 justify-end pt-2">
-            <AppButton variant="outline" type="button" :disabled="loading" @click="router.push(`/shifts/${id}`)">
+            <AppButton
+              variant="outline"
+              type="button"
+              :disabled="loading"
+              @click="router.push(`/shifts/${id}`)"
+            >
               Cancelar
             </AppButton>
-            <AppButton variant="primary" type="submit" :loading="loading">
+            <AppButton
+              variant="primary"
+              type="submit"
+              :loading="loading"
+            >
               Guardar cambios
             </AppButton>
           </div>

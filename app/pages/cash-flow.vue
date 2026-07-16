@@ -83,10 +83,12 @@ const fetchCashFlow = async () => {
       dateTo: dateTo.value,
       busId: busId.value || undefined,
     })
-  } catch (err: any) {
+  }
+  catch (err: any) {
     error.value = getApiErrorMessage(err, 'Error al cargar el flujo de caja')
     cashFlow.value = null
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }
@@ -112,17 +114,43 @@ const balanceColor = (val: number) => (val >= 0 ? 'text-blue-700' : 'text-orange
 <template>
   <div>
     <div class="mb-6">
-      <h1 class="text-2xl font-bold text-slate-800">Flujo de caja</h1>
-      <p class="text-slate-500 mt-1">Ingresos y gastos del negocio por período</p>
+      <h1 class="text-2xl font-bold text-slate-800">
+        Flujo de caja
+      </h1>
+      <p class="text-slate-500 mt-1">
+        Ingresos y gastos del negocio por período
+      </p>
     </div>
 
-    <AppAlert v-if="error" type="error" :message="error" class="mb-4" @dismiss="error = ''" />
+    <AppAlert
+      v-if="error"
+      type="error"
+      :message="error"
+      class="mb-4"
+      @dismiss="error = ''"
+    />
 
-    <AppCard padding="none" class="mb-6">
+    <AppCard
+      padding="none"
+      class="mb-6"
+    >
       <div class="p-4 border-b border-slate-100 flex flex-wrap gap-3 items-end">
-        <AppSelect v-model="busId" label="Autobús" :options="busOptions" placeholder="Todos los autobuses" />
-        <AppInput v-model="dateFrom" type="date" label="Desde" />
-        <AppInput v-model="dateTo" type="date" label="Hasta" />
+        <AppSelect
+          v-model="busId"
+          label="Autobús"
+          :options="busOptions"
+          placeholder="Todos los autobuses"
+        />
+        <AppInput
+          v-model="dateFrom"
+          type="date"
+          label="Desde"
+        />
+        <AppInput
+          v-model="dateTo"
+          type="date"
+          label="Hasta"
+        />
         <div class="flex gap-2 flex-wrap">
           <AppButton
             v-for="shortcut in shortcuts"
@@ -138,48 +166,96 @@ const balanceColor = (val: number) => (val >= 0 ? 'text-blue-700' : 'text-orange
       </div>
     </AppCard>
 
-    <div v-if="loading" class="flex justify-center py-16">
-      <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+    <div
+      v-if="loading"
+      class="flex justify-center py-16"
+    >
+      <svg
+        class="animate-spin h-8 w-8 text-blue-500"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        />
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+        />
       </svg>
     </div>
 
     <template v-else-if="cashFlow">
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div class="text-center p-4 bg-emerald-50 rounded-xl">
-          <p class="text-xs font-medium text-emerald-600 uppercase tracking-wide">Ingresos</p>
-          <p class="text-2xl font-bold text-emerald-700 mt-1">{{ formatCurrency(cashFlow.totalIncome) }}</p>
-          <p class="text-xs text-emerald-600 mt-1">{{ cashFlow.incomeCount }} registro(s)</p>
+          <p class="text-xs font-medium text-emerald-600 uppercase tracking-wide">
+            Ingresos
+          </p>
+          <p class="text-2xl font-bold text-emerald-700 mt-1">
+            {{ formatCurrency(cashFlow.totalIncome) }}
+          </p>
+          <p class="text-xs text-emerald-600 mt-1">
+            {{ cashFlow.incomeCount }} registro(s)
+          </p>
         </div>
         <div class="text-center p-4 bg-red-50 rounded-xl">
-          <p class="text-xs font-medium text-red-600 uppercase tracking-wide">Gastos</p>
-          <p class="text-2xl font-bold text-red-700 mt-1">{{ formatCurrency(cashFlow.totalExpenses) }}</p>
-          <p class="text-xs text-red-600 mt-1">{{ cashFlow.expenseCount }} registro(s)</p>
+          <p class="text-xs font-medium text-red-600 uppercase tracking-wide">
+            Gastos
+          </p>
+          <p class="text-2xl font-bold text-red-700 mt-1">
+            {{ formatCurrency(cashFlow.totalExpenses) }}
+          </p>
+          <p class="text-xs text-red-600 mt-1">
+            {{ cashFlow.expenseCount }} registro(s)
+          </p>
         </div>
         <div :class="['text-center p-4 rounded-xl', cashFlow.balance >= 0 ? 'bg-blue-50' : 'bg-orange-50']">
-          <p :class="['text-xs font-medium uppercase tracking-wide', cashFlow.balance >= 0 ? 'text-blue-600' : 'text-orange-600']">Balance</p>
-          <p :class="['text-2xl font-bold mt-1', balanceColor(cashFlow.balance)]">{{ formatCurrency(cashFlow.balance) }}</p>
+          <p :class="['text-xs font-medium uppercase tracking-wide', cashFlow.balance >= 0 ? 'text-blue-600' : 'text-orange-600']">
+            Balance
+          </p>
+          <p :class="['text-2xl font-bold mt-1', balanceColor(cashFlow.balance)]">
+            {{ formatCurrency(cashFlow.balance) }}
+          </p>
         </div>
       </div>
 
-      <AppCard title="Gastos por categoría" class="mb-6" v-if="cashFlow.expensesByCategory?.length">
+      <AppCard
+        v-if="cashFlow.expensesByCategory?.length"
+        title="Gastos por categoría"
+        class="mb-6"
+      >
         <div class="flex flex-wrap gap-3">
           <div
             v-for="cat in cashFlow.expensesByCategory"
             :key="cat.categoryId"
             class="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200"
           >
-            <AppBadge :variant="cat.color">{{ cat.name }}</AppBadge>
+            <AppBadge :variant="cat.color">
+              {{ cat.name }}
+            </AppBadge>
             <span class="text-sm font-semibold text-slate-700">{{ formatCurrency(cat.amount) }}</span>
             <span class="text-xs text-slate-400">({{ cat.count }})</span>
           </div>
         </div>
       </AppCard>
 
-      <AppCard title="Detalle diario" padding="none">
+      <AppCard
+        title="Detalle diario"
+        padding="none"
+      >
         <div class="p-4">
-          <AppTable :columns="dailyColumns" :rows="cashFlow.daily" empty-message="Sin movimientos en este rango.">
+          <AppTable
+            :columns="dailyColumns"
+            :rows="cashFlow.daily"
+            empty-message="Sin movimientos en este rango."
+          >
             <template #cell-date="{ row }">
               {{ formatDate(row.date) }}
             </template>

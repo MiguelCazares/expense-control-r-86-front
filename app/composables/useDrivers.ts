@@ -1,7 +1,7 @@
 export const useDrivers = () => {
   const { $api } = useNuxtApp()
 
-  const list = async (params?: { page?: number; limit?: number; search?: string }) => {
+  const list = async (params?: { page?: number, limit?: number, search?: string }) => {
     const res = await $api<any>('/drivers', { params })
     return res.data
   }
@@ -36,12 +36,12 @@ export const useDrivers = () => {
     return res.data
   }
 
-  const addAssignment = async (id: string, body: { busId: string; date: string }) => {
+  const addAssignment = async (id: string, body: { busId: string, date: string }) => {
     const res = await $api<any>(`/drivers/${id}/assignments`, { method: 'POST', body })
     return res.data
   }
 
-  const getAssignments = async (id: string, params?: { page?: number; limit?: number }) => {
+  const getAssignments = async (id: string, params?: { page?: number, limit?: number }) => {
     const res = await $api<any>(`/drivers/${id}/assignments`, { params })
     return res.data
   }

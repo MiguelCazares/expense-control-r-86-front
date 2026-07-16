@@ -14,7 +14,7 @@ interface Props {
   required?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<Props>(), {
   placeholder: 'Select an option',
   disabled: false,
   required: false,
@@ -29,9 +29,16 @@ const id = `select-${Math.random().toString(36).slice(2, 9)}`
 
 <template>
   <div class="flex flex-col gap-1">
-    <label v-if="label" :for="id" class="text-sm font-medium text-slate-700">
+    <label
+      v-if="label"
+      :for="id"
+      class="text-sm font-medium text-slate-700"
+    >
       {{ label }}
-      <span v-if="required" class="text-red-500 ml-0.5">*</span>
+      <span
+        v-if="required"
+        class="text-red-500 ml-0.5"
+      >*</span>
     </label>
     <select
       :id="id"
@@ -46,11 +53,25 @@ const id = `select-${Math.random().toString(36).slice(2, 9)}`
       ]"
       @change="emit('update:modelValue', ($event.target as HTMLSelectElement).value)"
     >
-      <option value="" disabled>{{ placeholder }}</option>
-      <option v-for="option in options" :key="option.value" :value="option.value">
+      <option
+        value=""
+        disabled
+      >
+        {{ placeholder }}
+      </option>
+      <option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+      >
         {{ option.label }}
       </option>
     </select>
-    <p v-if="error" class="text-xs text-red-600">{{ error }}</p>
+    <p
+      v-if="error"
+      class="text-xs text-red-600"
+    >
+      {{ error }}
+    </p>
   </div>
 </template>
