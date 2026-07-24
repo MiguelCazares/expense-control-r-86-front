@@ -42,6 +42,28 @@ const fetchOptions = async () => {
   if (s.status === 'fulfilled') shifts.value = s.value?.data ?? s.value
 }
 
+let syncing = false
+
+watch(() => form.shiftId, (shiftId) => {
+  if (syncing) return
+  if (!shiftId) return
+  const shift = shifts.value.find(s => String(s.id) === String(shiftId))
+  if (!shift?.date) return
+  syncing = true
+  form.date = shift.date
+  syncing = false
+})
+
+watch(() => form.date, (date) => {
+  if (syncing) return
+  const match = date
+    ? shifts.value.find(s => s.date === date && (!form.busId || String(s.busId) === String(form.busId)))
+    : undefined
+  syncing = true
+  form.shiftId = match ? String(match.id) : ''
+  syncing = false
+})
+
 const validate = () => {
   Object.keys(errors).forEach(k => delete errors[k])
   let valid = true
